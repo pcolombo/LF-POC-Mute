@@ -81,14 +81,15 @@
 					};
 
 					Mute.hide = function(authorId){
+						var authorSelector = "article[data-author-id='"+authorId+"']";
 						switch(this.style) {
 							case 'hide':
-								$("article[data-author-id='"+authorId+"']").hide();
+								$(authorSelector).hide();
 								break;	
 
 							default:
 							case 'fade':
-								$("article[data-author-id='"+authorId+"']").fadeTo('100',0.2);	// dim instead of remove for easier demo
+								$(authorSelector).fadeTo('100',0.2);
 								break;	
 						}
 					};

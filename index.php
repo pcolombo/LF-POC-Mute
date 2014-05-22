@@ -6,9 +6,11 @@
 		<title>Mute POC | Livefyre</title>
 		
 		<link href="//netdna.bootstrapcdn.com/bootswatch/3.1.1/yeti/bootstrap.min.css" rel="stylesheet">
-		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 		
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 		<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js">?</script>		
+		<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
 		<script src="http://zor.livefyre.com/wjs/v3.0/javascripts/livefyre.js" type="text/javascript"></script>
 		<script src="http://client-solutions.ep.livefyre.com/media/Y2xpZW50LXNvbHV0aW9ucy5lcC5saXZlZnlyZS5jb20=/javascripts/customprofiles.js"></script>
 	</head>
@@ -21,6 +23,16 @@
 					<p>This page provides a POC of using a <a href="http://answers.livefyre.com/developers/reference/customization/adding-action-buttons/" target="_blank">Custom Action Button</a> to impement a mute feature in Livefyre comments.</p>
 					<p>For the purposes of this example, the user's perferences are stored in a cookie for 7 days.</p>
 					<button type="button" class="btn btn-warning btn-xs" onclick="Mute.purgeCookie()">Purge Cookie</button>
+
+					<div class="btn-group">
+						<button class="btn btn-info btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
+							Change Style <span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu" role="menu">
+							<li><a onclick="Mute.changeStyle('fade')">Fade muted posts</a></li>
+							<li><a onclick="Mute.changeStyle('hide')">Hide muted posts</a></li>
+						</ul>
+					</div>
 					<!--
 					<div class="panel panel-default" style="margin-top:5%;">
   						<div class="panel-heading">Known Issues</div>
@@ -51,6 +63,7 @@
 
 					Mute.COOKIE_NAME = 'fyre-mute-authors';
 					Mute.authors = [];
+					Mute.style = 'fade';
 
 					Mute.muteAuthor = function(authorId){
 						if (this.authors.indexOf(authorId) == -1) {
@@ -61,15 +74,23 @@
 					};
 					
 					Mute.refresh = function(){
-						console.log('Mute.refresh');
+						//console.log('Mute.refresh');
 						for(var i=0; i<this.authors.length; i++){
 							this.hide(this.authors[i]);
 						}
 					};
 
 					Mute.hide = function(authorId){
-						$("article[data-author-id='"+authorId+"']").fadeTo('100',0.2);	// dim instead of remove for easier demo
-						//$("article[data-author-id='"+authorId+"']").hide();
+						switch(this.style) {
+							case 'hide':
+								$("article[data-author-id='"+authorId+"']").hide();
+								break;	
+
+							default:
+							case 'fade':
+								$("article[data-author-id='"+authorId+"']").fadeTo('100',0.2);	// dim instead of remove for easier demo
+								break;	
+						}
 					};
 
 					Mute.init = function(){
@@ -81,6 +102,11 @@
 							$.cookie(this.COOKIE_NAME,this.authors,{expires: 7})
 						}
 					};
+
+					Mute.changeStyle = function(newstyle){
+						this.style = newstyle;
+						this.refresh();
+					}
 
 					// Purge cookie for demo purposes only
 					Mute.purgeCookie = function() {

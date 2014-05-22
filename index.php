@@ -18,7 +18,7 @@
 			<div class="row">
 				<div class="col-md-4">
 					<h1>Mute POC</h1>
-					<p>This page provides a POC of using a <a href="http://answers.livefyre.com/product/features/custom-styling/#ActionButtons" target="_blank">Custom Action Button</a> to impement a mute feature in Livefyre comments.</p>
+					<p>This page provides a POC of using a <a href="http://answers.livefyre.com/developers/reference/customization/adding-action-buttons/" target="_blank">Custom Action Button</a> to impement a mute feature in Livefyre comments.</p>
 					<p>For the purposes of this example, the user's perferences are stored in a cookie for 7 days.</p>
 					<button type="button" class="btn btn-warning btn-xs" onclick="Mute.purgeCookie()">Purge Cookie</button>
 					<!--
